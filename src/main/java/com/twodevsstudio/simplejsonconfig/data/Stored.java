@@ -8,7 +8,17 @@ import java.lang.annotation.*;
 @Documented
 public @interface Stored {
 
+  /** Directory name for this stored type. */
   String value();
+
+  /**
+   * You can specify a path to your storage directory
+   *
+   * @implNote Child path, starting from the plugins folder, example: "/simplejsonconfig", if not
+   *     specified it will be the default to directory set in SimpleJSONConfig initializing
+   *     (SimpleJSONConfig.INSTANCE.register)
+   */
+  String configPath() default "";
 
   StoreType storeType() default StoreType.JSON;
 

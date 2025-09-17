@@ -185,7 +185,17 @@ public class AnnotationProcessor {
       String storeDirectoryPath = annotation.value();
       StoreType storeType = annotation.storeType();
 
-      Path path = Paths.get(pluginDirectory.toString(), storeDirectoryPath);
+      String customPath = annotation.configPath();
+      Path path;
+      if (!customPath.isEmpty()) {
+        if (!customPath.endsWith("/")) {
+          customPath += "/";
+        }
+        Path pluginsDirectory = pluginDirectory.getParent();
+        path = Paths.get(pluginsDirectory.toString(), customPath, storeDirectoryPath);
+      } else {
+        path = Paths.get(pluginDirectory.toString(), storeDirectoryPath);
+      }
       Files.createDirectories(path);
 
       InMemoryCache cache =
